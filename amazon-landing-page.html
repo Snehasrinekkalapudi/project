@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amazon.in - Online Shopping Site</title>
+<style>
+  :root {
+    --amazon-orange: #ff9900;
+    --amazon-dark: #131921;
+    --amazon-light: #232f3e;
+    --amazon-gray-light: #f3f3f3;
+    --amazon-gray-dark: #37475a;
+    --text-white: #fff;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Amazon Ember', Arial, sans-serif;
+    background-color: var(--amazon-gray-light);
+    color: var(--amazon-dark);
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  header {
+    background-color: var(--amazon-dark);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+    color: var(--text-white);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--amazon-orange);
+    letter-spacing: 2px;
+    user-select: none;
+    margin-right: 12px;
+    cursor:pointer;
+  }
+  .search-bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 20px;
+  }
+  .search-bar select {
+    border: none;
+    background-color: #ddd;
+    padding: 0 10px;
+    font-size: 14px;
+    outline: none;
+  }
+  .search-bar input[type="text"] {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    font-size: 16px;
+  }
+  .search-bar button {
+    background-color: var(--amazon-orange);
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: var(--text-white);
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+  }
+  .search-bar button:hover {
+    background-color: #e68a00;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  nav a {
+    padding: 8px 10px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    color: var(--text-white);
+  }
+  nav a:hover {
+    background-color: var(--amazon-light);
+  }
+  .nav-signin {
+    border-left: 1px solid #555;
+    padding-left: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  main {
+    max-width: 1200px;
+    margin: 20px auto 40px auto;
+    padding: 0 15px;
+  }
+  .hero {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+  .hero img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+  .hero-text {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    color: var(--text-white);
+    max-width: 480px;
+  }
+  .hero-text h1 {
+    font-size: 3rem;
+    margin: 0 0 12px 0;
+    font-weight: 700;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+  }
+  .hero-text p {
+    font-size: 1.2rem;
+    margin: 0 0 20px 0;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  }
+  .hero-text button {
+    background-color: var(--amazon-orange);
+    border: none;
+    padding: 14px 28px;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .hero-text button:hover {
+    background-color: #e68a00;
+  }
+  .category-section {
+    margin-bottom: 40px;
+  }
+  .category-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+    gap: 20px;
+  }
+  .category-card {
+    background-color: var(--text-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+  }
+  .category-card:hover {
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+  .category-card img {
+    width: 100%;
+    max-height: 140px;
+    object-fit: contain;
+    background-color: #f7f7f7;
+  }
+  .category-card h3 {
+    margin: 12px 0 16px 0;
+    font-size: 1.1rem;
+    color: var(--amazon-dark);
+  }
+  footer {
+    background-color: var(--amazon-dark);
+    color: var(--text-white);
+    padding: 20px 15px;
+    font-size: 14px;
+  }
+  footer a {
+    color: var(--amazon-orange);
+    margin-right: 15px;
+  }
+  footer .footer-links {
+    margin-bottom: 10px;
+  }
+  @media (max-width: 700px) {
+    .hero-text h1 {
+      font-size: 2rem;
+    }
+    .hero-text {
+      left: 20px;
+      max-width: 280px;
+    }
+    nav {
+      display: none; /* Hide nav on small screen for simplicity */
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <a href="https://www.amazon.in" class="logo" aria-label="Amazon India Homepage">amazon</a>
+  <form class="search-bar" onsubmit="return performSearch(event)">
+    <select name="category" id="category-select" aria-label="Select Category">
+      <option value="">All</option>
+      <option value="aps">All Categories</option>
+      <option value="electronics">Electronics</option>
+      <option value="computers">Computers & Accessories</option>
+      <option value="books">Books</option>
+      <option value="fashion">Fashion</option>
+      <option value="toys">Toys & Baby</option>
+      <option value="grocery">Grocery & Gourmet Foods</option>
+    </select>
+    <input type="text" id="search-input" placeholder="Search Amazon.in" aria-label="Search Amazon" required/>
+    <button type="submit" aria-label="Search Button">&#128269;</button>
+  </form>
+  <nav aria-label="Primary Navigation">
+    <a href="https://www.amazon.in/gp/goldbox?ref_=nav_cs_gb" target="_blank" rel="noopener">Today's Deals</a>
+    <a href="https://www.amazon.in/gp/browse.html?node=6648217031" target="_blank" rel="noopener">Customer Service</a>
+    <a href="https://www.amazon.in/gp/bestsellers/?ref_=nav_cs_bestsellers" target="_blank" rel="noopener">Best Sellers</a>
+    <a href="https://www.amazon.in/gp/new-releases/?ref_=nav_cs_newreleases" target="_blank" rel="noopener">New Releases</a>
+    <a href="https://www.amazon.in/prime?ref_=nav_cs_prime" target="_blank" rel="noopener" class="nav-signin">Sign In</a>
+  </nav>
+</header>
+<main>
+  <section class="hero" role="banner" aria-label="Hero Banner">
+    <img src="https://kalingatv.com/wp-content/uploads/2024/05/amazon-great-summer-sale-1.jpg" alt="Amazon Summer Deals Banner" />
+    <div class="hero-text">
+      <h1>Great Deals, Every Day</h1>
+      <p>Shop top products with the best discounts.</p>
+      <button onclick="window.location.href='https://www.amazon.in/gp/goldbox?ref_=nav_cs_gb'">Shop Deals</button>
+    </div>
+  </section>
+
+  <section class="category-section" aria-label="Featured Categories">
+    <h2>Shop by Category</h2>
+    <div class="categories-grid">
+      <div class="category-card" onclick="window.open('https://www.amazon.in/electronics-store/b/?ie=UTF8&node=976419031','_blank')" tabindex="0" role="link" aria-label="Electronics Category">
+        <img src="https://www.primexplastics.com/wp-content/uploads/electronics_markets.jpg" alt="Electronics" />
+        <h3>Electronics</h3>
+      </div>
+      <div class="category-card" onclick="window.open('https://www.amazon.in/Computers-Accessories/b/?ie=UTF8&node=1375424031','_blank')" tabindex="0" role="link" aria-label="Computers & Accessories Category">
+        <img src="https://p4-ofp.static.pub//fes/cms/2025/05/22/neb124aizu0dkmf71lv20cpuo3xt32271178.png" alt="Computers & Accessories" />
+        <h3>Computers & Accessories</h3>
+      </div>
+      <div class="category-card" onclick="window.open('https://www.amazon.in/books-used-books-textbooks/b?ie=UTF8&node=976389031','_blank')" tabindex="0" role="link" aria-label="Books Category">
+        <img src="https://th.bing.com/th/id/OIP.YyrPzHcn4e73rvRVFoJ3GwAAAA?r=0&rs=1&pid=ImgDetMain" alt="Books" />
+        <h3>Books</h3>
+      </div>
+      <div class="category-card" onclick="window.open('https://www.amazon.in/gp/browse.html?node=6648217031','_blank')" tabindex="0" role="link" aria-label="Fashion Category">
+        <img src="https://image.hm.com/assets/hm/41/97/4197823e9cc01412957474356c419e39750dce0a.jpg?imwidth=2160" alt="Fashion" />
+        <h3>Fashion</h3>
+      </div>
+      <div class="category-card" onclick="window.open('https://www.amazon.in/baby-products/b?ie=UTF8&node=1657963031','_blank')" tabindex="0" role="link" aria-label="Toys & Baby Category">
+        <img src="https://m.media-amazon.com/images/G/31/img21/AmazonBrands/GW_CPB_/QC_CC/Baby_toys/Halo_400x400_5ad._CB559081441_.jpg" alt="Toys & Baby" />
+        <h3>Toys & Baby</h3>
+      </div>
+      <div class="category-card" onclick="window.open('https://www.amazon.in/grocery-breakfast-foods/b?ie=UTF8&node=9574335031','_blank')" tabindex="0" role="link" aria-label="Grocery & Gourmet Foods Category">
+        <img src="https://th.bing.com/th/id/OIP.AuU828jROWiVfPBPYqWEdgHaEw?r=0&rs=1&pid=ImgDetMain" alt="Grocery & Gourmet Foods" />
+        <h3>Grocery & Gourmet Foods</h3>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="footer-links">
+    <a href="https://www.amazon.in/conditionsofuse" target="_blank" rel="noopener">Conditions of Use & Sale</a>
+    <a href="https://www.amazon.in/privacy" target="_blank" rel="noopener">Privacy Notice</a>
+    <a href="https://www.amazon.in/help" target="_blank" rel="noopener">Help</a>
+  </div>
+  <div>© 1996-2025, Amazon.com, Inc. or its affiliates</div>
+</footer>
+
+<script>
+  // Search performs a redirect to the Amazon.in search page with the query and category selected
+  function performSearch(event) {
+    event.preventDefault();
+    const category = document.getElementById('category-select').value;
+    const query = document.getElementById('search-input').value.trim();
+    if (!query) return false;
+    let url = 'https://www.amazon.in/s?k=' + encodeURIComponent(query);
+    if (category) {
+      url += '&rh=n%3A' + encodeURIComponent(category);
+    }
+    window.location.href = url;
+    return false;
+  }
+
+  // Keyboard accessibility for category cards
+  document.querySelectorAll('.category-card').forEach(card => {
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+  });
+</script>
+</body>
+</html>
+
