@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Discover Your Next Adventure - Tourism Website</title>
+<!-- Google Material Icons CDN -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Reset & base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background-color: #ffffff;
+    color: #6b7280;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:focus, button:focus, input:focus {
+    outline: 3px solid #2563eb; /* blue outline for accessibility */
+    outline-offset: 2px;
+  }
+
+  /* Utility */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  header {
+    background: #ffffffcc;
+    backdrop-filter: saturate(180%) blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .logo {
+    font-weight: 700;
+    font-size: 28px;
+    color: #111827;
+    letter-spacing: -0.02em;
+    user-select: none;
+  }
+  nav.desktop-nav {
+    display: flex;
+    gap: 28px;
+  }
+  nav.desktop-nav a {
+    font-weight: 600;
+    font-size: 16px;
+    color: #374151;
+    padding: 8px 0;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  nav.desktop-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: #2563eb;
+    transition: width 0.3s ease;
+  }
+  nav.desktop-nav a:hover,
+  nav.desktop-nav a:focus {
+    color: #2563eb;
+  }
+  nav.desktop-nav a:hover::after,
+  nav.desktop-nav a:focus::after {
+    width: 100%;
+  }
+
+  /* Hamburger */
+  button.hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #374151;
+    font-size: 32px;
+    display: none;
+  }
+
+  /* Breadcrumb for mobile */
+  nav.breadcrumb {
+    display: none;
+    font-size: 14px;
+    color: #9ca3af;
+    padding: 8px 24px;
+    background: #f9fafb;
+  }
+  nav.breadcrumb a {
+    color: #6b7280;
+  }
+  nav.breadcrumb span {
+    margin: 0 4px;
+  }
+
+  /* Mobile menu overlay */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255 255 255 / 0.98);
+    backdrop-filter: saturate(180%) blur(12px);
+    display: none;
+    flex-direction: column;
+    padding-top: 64px;
+    z-index: 1500;
+  }
+  .mobile-menu.show {
+    display: flex;
+  }
+  .mobile-menu a {
+    font-weight: 600;
+    font-size: 20px;
+    color: #2563eb;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s ease;
+  }
+  .mobile-menu a:hover,
+  .mobile-menu a:focus {
+    background: #e0e7ff;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 96px 0 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 16px;
+    line-height: 1.1;
+    position: relative;
+    z-index: 2;
+  }
+  .hero p {
+    font-size: 20px;
+    color: #4b5563;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .btn-primary {
+    background-color: #2563eb;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 24px;
+    position: relative;
+    z-index: 2;
+  }
+  .btn-primary:hover,
+  .btn-primary:focus {
+    background-color: #1e40af;
+    box-shadow: 0 12px 24px rgba(30, 64, 175, 0.6);
+  }
+
+  /* Search bar with dynamic background */
+  .search-wrapper {
+    max-width: 500px;
+    margin: 0 auto 40px;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.1);
+  }
+  .search-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center center;
+    filter: brightness(0.45) blur(6px);
+    transition: background-image 0.4s ease;
+    z-index: 0;
+  }
+  .search-content {
+    position: relative;
+    padding: 12px 16px;
+    background: rgba(255 255 255 / 0.85);
+    backdrop-filter: saturate(180%) blur(10px);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+  }
+  label.search-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 16px;
+    user-select: none;
+    text-align: left;
+  }
+  input#searchInput {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    transition: border-color 0.3s ease;
+  }
+  input#searchInput:focus {
+    border-color: #2563eb;
+  }
+
+  /* Suggestions dropdown */
+  ul.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 240px;
+    margin-top: 4px;
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    z-index: 10;
+  }
+  ul.suggestions li {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #374151;
+    transition: background-color 0.25s ease;
+  }
+  ul.suggestions li:hover,
+  ul.suggestions li[aria-selected="true"] {
+    background-color: #2563eb;
+    color: white;
+  }
+
+  /* Main Content */
+  main {
+    padding-bottom: 96px;
+  }
+  .destinations-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .destination-card {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.06);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .destination-card:hover,
+  .destination-card:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgb(0 0 0 / 0.12);
+  }
+  .destination-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .destination-content {
+    flex: 1 1 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .destination-title {
+    font-size: 24px;
+    color: #111827;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .destination-description {
+    flex-grow: 1;
+    font-size: 16px;
+    color: #6b7280;
+    margin-bottom: 24px;
+  }
+  .know-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #2563eb;
+    border: 2px solid #2563eb;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: fit-content;
+  }
+  .know-more-btn:hover,
+  .know-more-btn:focus {
+    background-color: #2563eb;
+    color: white;
+  }
+  .know-more-btn .material-icons {
+    font-size: 20px;
+  }
+
+  /* Responsive layouts */
+  @media (min-width: 640px) {
+    .destinations-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 36px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .header-inner {
+      padding: 0 40px;
+    }
+    nav.desktop-nav {
+      display: flex;
+    }
+    button.hamburger {
+      display: none;
+    }
+    nav.breadcrumb {
+      display: none;
+    }
+    /* 3-column grid for desktop */
+    .destinations-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      padding: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    nav.desktop-nav {
+      display: none;
+    }
+    button.hamburger {
+      display: block;
+    }
+    nav.breadcrumb {
+      display: flex;
+      align-items: center;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner container">
+    <div class="logo" tabindex="0">TravelExplorer</div>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#" tabindex="0">Home</a>
+      <a href="#destinations" tabindex="0">Destinations</a>
+      <a href="https://en.wikipedia.org/wiki/Travel" target="_blank" rel="noopener noreferrer" tabindex="0">Travel Info</a>
+    </nav>
+    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="material-icons">menu</span>
+    </button>
+  </div>
+  <nav class="breadcrumb container" aria-label="Breadcrumb navigation">
+    <a href="#" tabindex="0">Home</a><span aria-hidden="true">&gt;</span><span>Destinations</span>
+  </nav>
+  <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile primary navigation" hidden>
+    <a href="#" tabindex="0">Home</a>
+    <a href="#destinations" tabindex="0">Destinations</a>
+    <a href="https://en.wikipedia.org/wiki/Travel" target="_blank" rel="noopener noreferrer" tabindex="0">Travel Info</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 id="hero-title">Discover Your Next Adventure</h1>
+    <p>Explore the world’s most beautiful destinations with detailed guides and real images.</p>
+
+    <div class="search-wrapper" id="searchWrapper" aria-haspopup="listbox" aria-owns="search-listbox" aria-controls="search-listbox">
+      <div class="search-content">
+        <label for="searchInput" class="search-label">Search Places</label>
+        <input 
+          type="text" 
+          id="searchInput" 
+          name="searchInput" 
+          autocomplete="off"
+          placeholder="Start typing a place name…" 
+          aria-label="Search places" 
+          aria-autocomplete="list"
+          aria-controls="search-listbox"
+          aria-expanded="false"
+          role="combobox"
+          aria-activedescendant=""
+        />
+      </div>
+      <ul class="suggestions" id="search-listbox" role="listbox" tabindex="-1" aria-label="Search suggestions" hidden></ul>
+    </div>
+
+    <button class="btn-primary" onclick="scrollToDestinations()" aria-label="Browse Destinations">Browse Destinations</button>
+  </section>
+
+  <section id="destinations" class="destinations-grid" aria-label="Popular travel destinations">
+    <article class="destination-card" tabindex="0" data-name="Santorini, Greece" data-image="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/cbcf098d-2468-4fcf-b33b-e1e503b644ca.png" data-link="https://en.wikipedia.org/wiki/Santorini">
+      <img 
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/cbcf098d-2468-4fcf-b33b-e1e503b644ca.png" 
+        alt="Scenic view of white buildings and blue domes on the cliffs of Santorini, Greece overlooking the blue sea under clear sky"
+        class="destination-image"
+        loading="lazy"
+        width="600" height="400"
+      />
+      <div class="destination-content">
+        <h2 class="destination-title">Santorini, Greece</h2>
+        <p class="destination-description">A stunning island known for its picturesque whitewashed buildings, blue-domed churches, and breathtaking sunsets over the Aegean Sea.</p>
+        <a href="https://en.wikipedia.org/wiki/Santorini" target="_blank" rel="noopener noreferrer" class="know-more-btn" aria-label="Know more about Santorini, Greece on Wikipedia">
+          Know More
+          <span class="material-icons" aria-hidden="true">open_in_new</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="destination-card" tabindex="0" data-name="Kyoto, Japan" data-image="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f6cf5090-9827-4f3c-b83e-f9f7e4903f1c.png" data-link="https://en.wikipedia.org/wiki/Kyoto">
+      <img 
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f6cf5090-9827-4f3c-b83e-f9f7e4903f1c.png" 
+        alt="Traditional wooden temples and cherry blossoms during spring season in Kyoto, Japan" 
+        class="destination-image"
+        loading="lazy"
+        width="600" height="400"
+      />
+      <div class="destination-content">
+        <h2 class="destination-title">Kyoto, Japan</h2>
+        <p class="destination-description">An ancient city full of traditional temples, beautiful gardens, and vibrant cherry blossoms, highlighting Japan’s rich culture.</p>
+        <a href="https://en.wikipedia.org/wiki/Kyoto" target="_blank" rel="noopener noreferrer" class="know-more-btn" aria-label="Know more about Kyoto, Japan on Wikipedia">
+          Know More
+          <span class="material-icons" aria-hidden="true">open_in_new</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="destination-card" tabindex="0" data-name="Machu Picchu, Peru" data-image="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fd3bb351-b84c-4698-a85d-e20956fbb140.png" data-link="https://en.wikipedia.org/wiki/Machu_Picchu">
+      <img 
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fd3bb351-b84c-4698-a85d-e20956fbb140.png" 
+        alt="Aerial view of the ancient Inca city of Machu Picchu surrounded by green mountains under bright sky" 
+        class="destination-image"
+        loading="lazy"
+        width="600" height="400"
+      />
+      <div class="destination-content">
+        <h2 class="destination-title">Machu Picchu, Peru</h2>
+        <p class="destination-description">A famous Inca citadel set high in the Andes Mountains, renowned for its archaeological significance and stunning landscape.</p>
+        <a href="https://en.wikipedia.org/wiki/Machu_Picchu" target="_blank" rel="noopener noreferrer" class="know-more-btn" aria-label="Know more about Machu Picchu, Peru on Wikipedia">
+          Know More
+          <span class="material-icons" aria-hidden="true">open_in_new</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="destination-card" tabindex="0" data-name="Grand Canyon, USA" data-image="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7cedbe0b-d428-4973-b0df-532fe68f8d3c.png" data-link="https://en.wikipedia.org/wiki/Grand_Canyon">
+      <img 
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7cedbe0b-d428-4973-b0df-532fe68f8d3c.png" 
+        alt="Grand Canyon vast layered red rock canyon walls under clear sunny sky in the USA" 
+        class="destination-image"
+        loading="lazy"
+        width="600" height="400"
+      />
+      <div class="destination-content">
+        <h2 class="destination-title">Grand Canyon, USA</h2>
+        <p class="destination-description">World-famous canyon carved by the Colorado River, offering dramatic landscapes, hiking trails, and breathtaking viewpoints.</p>
+        <a href="https://en.wikipedia.org/wiki/Grand_Canyon" target="_blank" rel="noopener noreferrer" class="know-more-btn" aria-label="Know more about Grand Canyon, USA on Wikipedia">
+          Know More
+          <span class="material-icons" aria-hidden="true">open_in_new</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="destination-card" tabindex="0" data-name="Paris, France" data-image="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c1187883-c238-4b76-a60f-d2b3bb687a00.png" data-link="https://en.wikipedia.org/wiki/Paris">
+      <img 
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c1187883-c238-4b76-a60f-d2b3bb687a00.png" 
+        alt="View of the Eiffel Tower in Paris with historic buildings under cloudy sky" 
+        class="destination-image"
+        loading="lazy"
+        width="600" height="400"
+      />
+      <div class="destination-content">
+        <h2 class="destination-title">Paris, France</h2>
+        <p class="destination-description">The City of Light, known for its iconic Eiffel Tower, art museums, charming streets, gourmet cuisine, and romantic ambiance.</p>
+        <a href="https://en.wikipedia.org/wiki/Paris" target="_blank" rel="noopener noreferrer" class="know-more-btn" aria-label="Know more about Paris, France on Wikipedia">
+          Know More
+          <span class="material-icons" aria-hidden="true">open_in_new</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="destination-card" tabindex="0" data-name="Cape Town, South Africa" data-image="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/126f7eb1-a534-4cb8-a38d-5af44fc6b41c.png" data-link="https://en.wikipedia.org/wiki/Cape_Town">
+      <img 
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/126f7eb1-a534-4cb8-a38d-5af44fc6b41c.png" 
+        alt="View of Table Mountain and cityscape of Cape Town, South Africa under clear blue sky" 
+        class="destination-image"
+        loading="lazy"
+        width="600" height="400"
+      />
+      <div class="destination-content">
+        <h2 class="destination-title">Cape Town, South Africa</h2>
+        <p class="destination-description">A vibrant city with stunning natural landscapes, famous Table Mountain, beaches, and diverse cultural experiences.</p>
+        <a href="https://en.wikipedia.org/wiki/Cape_Town" target="_blank" rel="noopener noreferrer" class="know-more-btn" aria-label="Know more about Cape Town, South Africa on Wikipedia">
+          Know More
+          <span class="material-icons" aria-hidden="true">open_in_new</span>
+        </a>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<script>
+  const hamburgerButton = document.querySelector('button.hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  hamburgerButton.addEventListener('click', () => {
+    const expanded = hamburgerButton.getAttribute('aria-expanded') === 'true';
+    hamburgerButton.setAttribute('aria-expanded', !expanded);
+    if (mobileMenu.hasAttribute('hidden')) {
+      mobileMenu.removeAttribute('hidden');
+      mobileMenu.classList.add('show');
+    } else {
+      mobileMenu.setAttribute('hidden', '');
+      mobileMenu.classList.remove('show');
+    }
+  });
+
+  function scrollToDestinations() {
+    const destinationsSection = document.getElementById('destinations');
+    destinationsSection.scrollIntoView({behavior: 'smooth'});
+  }
+
+  // Custom Autocomplete for Search Bar
+  const searchInput = document.getElementById('searchInput');
+  const suggestionsBox = document.getElementById('search-listbox');
+  const searchWrapper = document.getElementById('searchWrapper');
+  const destinationCards = document.querySelectorAll('.destination-card');
+
+  // Prepare list of place objects for autocomplete
+  const places = Array.from(destinationCards).map(card => ({
+    name: card.dataset.name,
+    image: card.dataset.image,
+    link: card.dataset.link
+  }));
+
+  let currentFocus = -1;
+
+  function closeSuggestions() {
+    suggestionsBox.innerHTML = '';
+    suggestionsBox.hidden = true;
+    searchInput.setAttribute('aria-expanded', 'false');
+    searchInput.removeAttribute('aria-activedescendant');
+    currentFocus = -1;
+  }
+
+  function updateSuggestions(value) {
+    const val = value.trim().toLowerCase();
+    suggestionsBox.innerHTML = '';
+    if(!val) {
+      closeSuggestions();
+      searchWrapper.style.setProperty('--bg-image', 'none');
+      searchWrapper.style.backgroundImage = 'none';
+      searchWrapper.style.position = 'relative';
+      searchWrapper.style.backgroundColor = 'transparent';
+      searchWrapper.style.removeProperty('background-image');
+      searchWrapper.style.removeProperty('--bg-image');
+      searchWrapper.style.removeProperty('background-size');
+      searchWrapper.style.removeProperty('background-position');
+      searchWrapper.style.removeProperty('filter');
+      searchWrapper.style.removeProperty('background-repeat');
+      searchWrapper.style.backgroundRepeat = 'no-repeat';
+      return;
+    }
+    const matched = places.filter(place => place.name.toLowerCase().includes(val));
+    if(matched.length === 0) {
+      closeSuggestions();
+      return;
+    }
+    matched.forEach((place, index) => {
+      const li = document.createElement('li');
+      li.textContent = place.name;
+      li.setAttribute('role', 'option');
+      li.id = `search-item-${index}`;
+      li.tabIndex = -1;
+      li.addEventListener('click', () => {
+        selectSuggestion(place);
+      });
+      li.addEventListener('mouseenter', () => {
+        setFocus(index);
+      });
+      suggestionsBox.appendChild(li);
+    });
+    suggestionsBox.hidden = false;
+    searchInput.setAttribute('aria-expanded', 'true');
+    currentFocus = -1;
+  }
+
+  function setFocus(idx) {
+    const items = suggestionsBox.querySelectorAll('li');
+    if(items.length === 0) return;
+    items.forEach(item => item.setAttribute('aria-selected', 'false'));
+    if(idx >= 0 && idx < items.length) {
+      items[idx].setAttribute('aria-selected', 'true');
+      searchInput.setAttribute('aria-activedescendant', items[idx].id);
+    } else {
+      searchInput.removeAttribute('aria-activedescendant');
+    }
+    currentFocus = idx;
+  }
+
+  function selectSuggestion(place) {
+    searchInput.value = place.name;
+    closeSuggestions();
+    updateBackground(place.image);
+    focusDestinations(place.name);
+  }
+
+  function updateBackground(imageUrl) {
+    searchWrapper.style.setProperty('--bg-image', `url('${imageUrl}')`);
+    // Using CSS ::before pseudo-element for filter and blur in CSS
+    const before = window.getComputedStyle(searchWrapper, '::before');
+    // The style in CSS will update using CSS variables for better performance:
+    searchWrapper.style.backgroundImage = `url('${imageUrl}')`;
+    // But since ::before uses background-image, we update via inline style for ::before
+    // We cannot do this via JS easily, we keep background-image on .search-wrapper::before via CSS variable --bg-image
+    // So instead, update CSS variable:
+    searchWrapper.style.setProperty('--bg-image', `url('${imageUrl}')`);
+    // In CSS ::before, I will use var(--bg-image) for background-image
+    // So now I update the CSS accordingly below
+  }
+
+  function focusDestinations(name) {
+    // Scroll and highlight matched destination card(s)
+    let matchedAny = false;
+    destinationCards.forEach(card => {
+      if(card.dataset.name.toLowerCase() === name.toLowerCase()) {
+        card.style.display = '';
+        if(!matchedAny) {
+          card.scrollIntoView({behavior: 'smooth', block: 'center'});
+          matchedAny = true;
+        }
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    if(!matchedAny) {
+      // If no exact match, show all
+      destinationCards.forEach(card => card.style.display = '');
+    }
+  }
+
+  searchInput.addEventListener('input', e => {
+    updateSuggestions(e.target.value);
+    // If input cleared, reset background and show all destinations
+    if(e.target.value.trim() === '') {
+      destinationCards.forEach(card => card.style.display = '');
+      searchWrapper.style.removeProperty('--bg-image');
+    }
+  });
+
+  searchInput.addEventListener('keydown', e => {
+    const items = suggestionsBox.querySelectorAll('li');
+    if(suggestionsBox.hidden || items.length === 0) return;
+
+    if(e.key === 'ArrowDown') {
+      e.preventDefault();
+      currentFocus++;
+      if(currentFocus >= items.length) currentFocus = 0;
+      setFocus(currentFocus);
+    } else if(e.key === 'ArrowUp') {
+      e.preventDefault();
+      currentFocus--;
+      if(currentFocus < 0) currentFocus = items.length - 1;
+      setFocus(currentFocus);
+    } else if(e.key === 'Enter') {
+      e.preventDefault();
+      if(currentFocus > -1) {
+        items[currentFocus].click();
+      }
+    } else if(e.key === 'Escape') {
+      closeSuggestions();
+    }
+  });
+
+  // Close suggestions if click outside
+  document.addEventListener('click', e => {
+    if(!searchWrapper.contains(e.target)) {
+      closeSuggestions();
+    }
+  });
+
+</script>
+
+<style>
+  /* Additional style to use CSS variable for background in search-wrapper ::before */
+  .search-wrapper::before {
+    background-image: var(--bg-image, none);
+  }
+</style>
+
+</body>
+</html>
+
